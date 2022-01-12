@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>DBG为何如此上头——从战斗关卡设计说起 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="（本文已完结） &amp;emsp;&amp;emsp;本文以DBG定义出发，逆向分析Build过程与关卡设计，以探寻卡牌游戏设计之道。 一、概述：什么是DBG1.1 Rouge+Build DBG的英文缩写为：Deck Building Game，中文全称为卡牌构筑游戏，代表作品有《杀戮尖塔》、《月圆之夜》、《欺诈之地》等。这个概念起源于桌游，玩家需要利用游戏代币从公共牌库中购买自己需要的牌构建个人牌库并完成游">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DBG为何如此上头——从战斗关卡设计说起">
+<meta property="og:url" content="http://example.com/2021/11/06/CardGame/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="（本文已完结） &amp;emsp;&amp;emsp;本文以DBG定义出发，逆向分析Build过程与关卡设计，以探寻卡牌游戏设计之道。 一、概述：什么是DBG1.1 Rouge+Build DBG的英文缩写为：Deck Building Game，中文全称为卡牌构筑游戏，代表作品有《杀戮尖塔》、《月圆之夜》、《欺诈之地》等。这个概念起源于桌游，玩家需要利用游戏代币从公共牌库中购买自己需要的牌构建个人牌库并完成游">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/badde016c60b44da96d66b6a25df4159.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ZlbmdndWFuMjAxOQ==,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/9a1086e502264e16883a967ad06d2a3e.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ZlbmdndWFuMjAxOQ==,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://z3.ax1x.com/2021/08/27/hKzW40.png">
+<meta property="og:image" content="https://z3.ax1x.com/2021/08/27/hMkr0U.md.png">
+<meta property="og:image" content="https://z3.ax1x.com/2021/08/27/hMukIf.png">
+<meta property="og:image" content="https://z3.ax1x.com/2021/08/30/hJqUTH.png">
+<meta property="og:image" content="https://z3.ax1x.com/2021/08/30/hJoXbd.png">
+<meta property="og:image" content="https://z3.ax1x.com/2021/08/30/hJ7Hne.png">
+<meta property="og:image" content="https://z3.ax1x.com/2021/08/30/hYiZCT.gif">
+<meta property="og:image" content="https://z3.ax1x.com/2021/08/30/htvcYF.gif">
+<meta property="og:image" content="https://z3.ax1x.com/2021/08/30/htjwVK.gif">
+<meta property="og:image" content="https://z3.ax1x.com/2021/08/27/hMH6Z6.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/fbc129ac7227437f9f288a89230c7470.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ZlbmdndWFuMjAxOQ==,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://z3.ax1x.com/2021/08/27/hQuUud.png">
+<meta property="og:image" content="https://z3.ax1x.com/2021/08/27/hMOjA0.png">
+<meta property="og:image" content="https://z3.ax1x.com/2021/08/31/hU3lrj.png">
+<meta property="og:image" content="https://z3.ax1x.com/2021/08/30/hNFsTs.gif">
+<meta property="og:image" content="https://z3.ax1x.com/2021/08/30/hNkTKS.gif">
+<meta property="og:image" content="https://z3.ax1x.com/2021/08/31/hU1Z3F.gif">
+<meta property="og:image" content="https://z3.ax1x.com/2021/08/31/hUBZoF.gif">
+<meta property="og:image" content="https://z3.ax1x.com/2021/08/26/hnTe3t.gif">
+<meta property="og:image" content="https://www.hualigs.cn/image/612761f42c2d1.jpg">
+<meta property="og:image" content="https://z3.ax1x.com/2021/08/31/hUDN7T.png">
+<meta property="og:image" content="https://z3.ax1x.com/2021/08/31/hUc1OA.png">
+<meta property="og:image" content="https://z3.ax1x.com/2021/08/31/hUgWUP.png">
+<meta property="og:image" content="https://z3.ax1x.com/2021/08/31/hUG0ER.png">
+<meta property="og:image" content="https://z3.ax1x.com/2021/08/27/hKjt7q.png">
+<meta property="article:published_time" content="2021-11-06T00:47:18.929Z">
+<meta property="article:modified_time" content="2021-08-31T16:54:44.410Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/badde016c60b44da96d66b6a25df4159.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ZlbmdndWFuMjAxOQ==,size_16,color_FFFFFF,t_70#pic_center">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-CardGame" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/11/06/CardGame/" class="article-date">
+  <time class="dt-published" datetime="2021-11-06T00:47:18.929Z" itemprop="datePublished">2021-11-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      DBG为何如此上头——从战斗关卡设计说起
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>（本文已完结）</p>
+<p>&emsp;&emsp;本文以DBG定义出发，逆向分析Build过程与关卡设计，以探寻卡牌游戏设计之道。</p>
+<h2 id="一、概述：什么是DBG"><a href="#一、概述：什么是DBG" class="headerlink" title="一、概述：什么是DBG"></a>一、概述：什么是DBG</h2><h3 id="1-1-Rouge-Build"><a href="#1-1-Rouge-Build" class="headerlink" title="1.1 Rouge+Build"></a>1.1 Rouge+Build</h3><blockquote>
+<p>DBG的英文缩写为：Deck Building Game，中文全称为卡牌构筑游戏，代表作品有《杀戮尖塔》、《月圆之夜》、《欺诈之地》等。这个概念起源于桌游，玩家需要利用游戏代币从公共牌库中购买自己需要的牌构建个人牌库并完成游戏目标，后面的电子游戏也延伸了这个规则，不过去掉了“公共牌库”这一概念，但是保留了加强构筑这一核心要素。</p>
+</blockquote>
+<span id="more"></span>
+<blockquote>
+<p>BUILD+Rouge：Roguelike的吸引力在于无限的变化和无限的组合，这些都让玩家产生了了探索和尝试的好奇心，并让Roguelike+Bulid让DBG与其他固定策略的卡牌游戏产生了本质上的差异。玩家在游玩过程中会遇到不同的事件、卡牌、遗物、怪物，为了让自己在随机多变的环境下更好、更有针对性的生存，每局玩家都会针对当下的情况构筑卡组、转换策略，在高随机的情况下“构筑”一套能高效应敌的卡组的重要性就额外突出。因此，DBG的核心体验在于每局不同的“构筑”。以“构筑”这种体验出发，才能产生删除卡牌，卡牌抉择、敌人特性等其他玩法要素，增添多余的要素反而是影响了“构筑”整体的体验。</p>
+</blockquote>
+<h3 id="1-2-玩家对于策略卡牌游戏的核心诉求是什么？"><a href="#1-2-玩家对于策略卡牌游戏的核心诉求是什么？" class="headerlink" title="1.2 玩家对于策略卡牌游戏的核心诉求是什么？"></a>1.2 玩家对于策略卡牌游戏的核心诉求是什么？</h3><p>&emsp;&emsp;利用python爬取taptap上《月圆之夜》的一万条用户评论，利用词云分析可以看出玩家在DBG游戏中最关注的方面以及核心诉求：</p>
+<p>&emsp;&emsp;爬取结果：<br><img src="https://img-blog.csdnimg.cn/badde016c60b44da96d66b6a25df4159.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ZlbmdndWFuMjAxOQ==,size_16,color_FFFFFF,t_70#pic_center" alt="爬取结果"></p>
+<p>&emsp;&emsp;词云图：<br><img src="https://img-blog.csdnimg.cn/9a1086e502264e16883a967ad06d2a3e.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ZlbmdndWFuMjAxOQ==,size_16,color_FFFFFF,t_70#pic_center" alt="词云图"><br>&emsp;&emsp;从词云图可以看出，玩家在玩DBG中，最关注的元素依次人物职业、难度、版本更新，其次是剧情、模式、玩法、成就、卡组。</p>
+<blockquote>
+<ol>
+<li>在1w条抽样数据中，职业相关的词汇（骑士、小女巫、游侠、魔术师、狼人、药剂师等）出现了16,869次，玩家对于玩法的关注度远大于剧情、难度、配音、付费、运营等其他非游戏性要素，作为一款纯粹的打牌游戏，月圆之夜的游戏性非常成功。普通玩家对DBG的职业细分认知明确，基本都能完整的体验几个角色并能详细理清不同职业的打牌策略。DBG的设计师在设计职业卡牌时明显做了差异化，让玩家形成了截然不同的打牌体验。</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="2">
+<li>在1w条抽样数据中，“难度”出现了3391次，“噩梦”出现了2969次，表明玩家对于DBG的难度比较敏感，但是愿意在熟悉游戏后愿意逐步提升难度曲线挑战“噩梦”关卡。同为DBG游戏，《杀戮尖塔》的难度曲线就非常陡峭，而且没有随机保护措施，门槛远远高于《月圆之夜》，其硬核程度也劝退了一大部分非策略游戏的核心玩家，如果想扩大受众，需要相对平缓友好的难度曲线。</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="3">
+<li>在1w条抽样数据中，“更新”出现了3137次，表明约有30%的玩家对游戏产生了粘性，希望制作组持续更新产出新的可玩内容（ps.事实上月圆的制作组已经放弃继续开发，准备转战新项目）。同为DBG的《杀戮尖塔》却在不停更新，创意工坊的存在也丰富了游戏的玩法，说明DBG核心用户粘性比较高，而且游戏寿命很依赖游戏的持续内容产出。</li>
+</ol>
+</blockquote>
+<blockquote>
+<ol start="4">
+<li>“剧情”被提到了2623次，“故事”被提到了1687次，“配音”提到了708次，“画风”提到了927次，这也说明月圆之夜在文案和美术上包装的成功。电子游戏DBG的始祖《DreamQuest》虽然数值和关卡设计优秀，但是碍于其简笔画火柴人画风导致其热度低迷，反响平平。同类型的《杀戮尖塔》画风简洁，剧情简单，也能被大众所接受。一些二次元包装下的DBG却因为画风被部分策略卡牌玩家诟病，认为二次元的噱头远大于游戏自身的可玩性。所以在包装这一点上：可以简单，但不能没有，也不能过于喧宾夺主。</li>
+</ol>
+</blockquote>
+<h2 id="二、DBG的乐趣在哪？"><a href="#二、DBG的乐趣在哪？" class="headerlink" title="二、DBG的乐趣在哪？"></a>二、DBG的乐趣在哪？</h2><h3 id="2-1-DBG的关卡设计"><a href="#2-1-DBG的关卡设计" class="headerlink" title="2.1 DBG的关卡设计"></a>2.1 DBG的关卡设计</h3><p>&emsp;&emsp;整体上来看，DBG游戏的关卡设计是要为“构筑”而服务的，高随机的关卡和敌人迫使玩家放弃一劳永逸的固定策略，尽快形成一套根据当前情况成型泛用的卡组；但是这个随机性要在一定范围内可控，原则上要让玩家在构建卡组前期平缓过渡，并且不过多针对玩家当前形成的卡组流派（避免为了难而难，为了恶心而恶心的设计思路），不然很容易造成难度失衡，大大影响卡牌的策略性。</p>
+<h4 id="2-1-1-关卡路线"><a href="#2-1-1-关卡路线" class="headerlink" title="2.1.1 关卡路线"></a>2.1.1 关卡路线</h4><blockquote>
+<p>以《月圆之夜》和《杀戮尖塔》为例</p>
+</blockquote>
+<p>&emsp;&emsp;《杀戮尖塔》每层的关卡由一个种子决定，玩家无法SL，这就意味着层数就是资源，必须在每一层开始的时候就规划好路线，根据当前目标取舍要获取的资源。对于玩家来说，每一条路线的可预见性大，但是具体的事件却充满随机性，玩家对随机性的可控性有限。</p>
+<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/hKzW40"><img src="https://z3.ax1x.com/2021/08/27/hKzW40.png" alt="hKzW40.png"></a></p>
+<p>&emsp;&emsp;以杀戮尖塔第一层地图为例，玩家在这一层开局就能看到关底的boss是谁从而选择这一层的抓牌策略，并且可以清晰的看到每条路线上的事件，每条路线上的事件尽量会保持均衡，每条路线又有大量交叉点，玩家需要根据当前环境对路线进行选择。例如玩家想要在火堆多次强化卡牌，就要尽量走有火堆的路线，想要在第一层挑战更多的精英，就要选择精英和怪物多的路线。虽然事件类型是固定的，但是玩家并不知道遇到的具体敌人和事件信息。在随机要素中有两点是固定不变的：杀戮尖塔的一条路线上必定会出现一个必经过的宝箱事件，BOSS房前必定有一个火堆。</p>
+<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/hMkr0U"><img src="https://z3.ax1x.com/2021/08/27/hMkr0U.md.png" alt="hMkr0U.md.png"></a></p>
+<p>&emsp;&emsp;《月圆之夜》的关卡内容甚至每一层可以获得的卡组都已经再开始被决定了，玩家可以自由选择资源的顺序，最终可以经历全部事件获得全部资源，可以SL改变每一层的事件内容。而且《月圆之夜》比《杀戮尖塔》多了一个“等级”的概念，在打败敌人后不仅会获得金币还会获得经验值，每提升一级角色就会提高血量、法力值、能量、抽牌上限等，“等级”的本质也是一种资源，为了获取尽量多的经验值，多数玩家还是会选择把这一层的全部事件都过一遍，也就不存在策略上的资源抉择问题了。设计者的这种做法是为了控制“流程体验”，但是这种设计是“伪随机”的，玩家很容易通过SL大法ROLL出自己想要的完美卡组，与rougelike原则相违背，这也就导致了《月圆之夜》的游戏性大打折扣。</p>
+<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/hMukIf"><img src="https://z3.ax1x.com/2021/08/27/hMukIf.png" alt="hMukIf.png"></a><br>&emsp;&emsp;月圆之夜的模式是三选一的模式，可以直接看到事件的内容，点开关闭后事件不会消失，剧情模式下可以叉掉敌人路线，噩梦模式不可以叉掉，玩家能够根据需要经历奖励事件，选择打两个敌人的优先顺序，在一层中包含3个商店，1个升级商店，1个删卡商店，3个宝箱，2-3个回血点，1个过渡区域和1个关底BOSS事件，玩家死亡后可以重新回到选路线前的界面，没有死亡惩罚。</p>
+<p>一张图概括两者的关卡流程差别：杀戮尖塔的路线更复杂自由，难以被预料。月圆之夜路线简单，玩家可以走通全部路线，变化更少。<br><a target="_blank" rel="noopener" href="https://imgtu.com/i/hJqUTH"><img src="https://z3.ax1x.com/2021/08/30/hJqUTH.png" alt="hJqUTH.png"></a></p>
+<h4 id="2-1-2-资源获取方式"><a href="#2-1-2-资源获取方式" class="headerlink" title="2.1.2 资源获取方式"></a>2.1.2 资源获取方式</h4><p>&emsp;&emsp;对于DBG来说，卡牌就是资源。玩家组建卡组的过程既要有一定随机性，又要有确定的手段控制卡牌的强度（即Key牌的获取方式），以此平衡rouge和bulid。</p>
+<p>&emsp;&emsp;《杀戮尖塔》每次战斗都会获得3张牌，玩家三选一，精英怪必掉蓝卡，BOSS必掉金卡，玩家想尽早获得key牌，明确组卡方向就要在前期多走精英怪多的路线，与充斥在《杀戮尖塔》“风险与收益”的精神相吻合；<br /><br><a target="_blank" rel="noopener" href="https://imgtu.com/i/hJoXbd"><img src="https://z3.ax1x.com/2021/08/30/hJoXbd.png" alt="hJoXbd.png"></a></p>
+<p>&emsp;&emsp;《月圆之夜》普通战斗不掉落卡牌，卡牌主要获取方式是从宝箱和商店中获取。月圆之夜设计了“阶段”这一概念，游戏中分为三章，第三章才会掉落强力的key卡，也就是说玩家在前两层很难组成一套完美卡组，但由于月圆之夜的资源远远多于杀戮尖塔，玩家在前两章的上限就很高，所以这种设计也避免了资源充足的玩家轻易拿key卡在前几就把难度平衡打破的局面。<br><a target="_blank" rel="noopener" href="https://imgtu.com/i/hJ7Hne"><img src="https://z3.ax1x.com/2021/08/30/hJ7Hne.png" alt="hJ7Hne.png"></a></p>
+<p>&emsp;&emsp;除了key卡和围绕key卡组建的build卡外，游戏内还存在着一堆“过渡牌”，目的是避免玩家在前期始没有成型卡组前暴毙，但是“过渡牌”的作用在后期就很尴尬，数值平庸而且占据一个手牌位，容易卡手，对于老玩家来说是宁可前期暴毙也不会拿的“废牌”。为了处理这种矛盾，杀戮尖塔和月圆之夜都引入了“删卡”机制，玩家可以支付中等代价删除卡组中冗余的过渡牌，虽然杀戮尖塔的删牌代价远大于月圆之夜，但是杀戮尖塔中有“主动消耗”这一机制，部分卡牌可以主动销毁牌库中的几张指定牌，起到精简单局牌库的作用，大大加速卡组循环，玩家也能通过消耗卡牌获得一定收益，因此也能看出杀戮尖塔更看重玩家的局内策略性。</p>
+<h4 id="2-1-3-难度曲线"><a href="#2-1-3-难度曲线" class="headerlink" title="2.1.3 难度曲线"></a>2.1.3 难度曲线</h4><p><strong>○ 规则设计上</strong></p>
+<p>&emsp;&emsp;月圆之夜的受众是利用碎片化时间，随时随刻在地铁上玩游戏的轻度策略游戏玩家。月圆之夜经过几次大更新和迭代，取消了死亡删档、锁定牌序等对玩家不友好的设定，在关卡设计上弱化防守，注重输出，大大降低了玩家入门的门槛。<br /><br>&emsp;&emsp;杀戮尖塔的受众是对卡牌规则有一定理解，愿意花时间钻研的重度策略玩家，规则上保留了传统桌游的回合结束后自动弃牌、护甲不能保留到下一回合的硬核设定，加上死亡删档，禁止SL，对玩家的卡组平衡、局内卡牌调度和资源规划能力很高，难度曲线陡峭。</p>
+<p><strong>○ 数值上</strong></p>
+<p>&emsp;&emsp;除了系统层面影响的游戏难度曲线的变化，对难度曲线的影响还明显体现在数值上，根本还在于两个游戏的数学模型：</p>
+<blockquote>
+<p>杀戮尖塔在严格控制数学模型，项数必须可控且在4个以下，如果有超模要素，这个要素必须消耗。而对这个模型放弃治疗的月圆之夜，则开枝散叶。从一卡通关到超大卡组，从受苦开荒到稳定一回合杀，它的上下限玩法以乘方速度扩张，平衡性也被一路狗血地在地上拖行。———此处资料引用至杀戮尖塔吧的Decemax吧友</p>
+</blockquote>
+<p>一回合秒最高难度BOSS：<a target="_blank" rel="noopener" href="https://imgtu.com/i/hYiZCT"><img src="https://z3.ax1x.com/2021/08/30/hYiZCT.gif" alt="一回合秒最高难度BOSS"></a></p>
+<p>叠最厚的甲挨最疼的打：<a target="_blank" rel="noopener" href="https://imgtu.com/i/htvcYF"><img src="https://z3.ax1x.com/2021/08/30/htvcYF.gif" alt="htvcYF.gif"></a></p>
+<p>举个例子：月圆之夜的小女巫职业是游戏内最暴力的职业，基础装备【魔力法杖】的效果是每次获得两点法力造成一点伤害，搭配核心装备【飓风法杖】每次用咒术牌造成伤害就恢复相同数量的法力值，配合天赋【法力萃取】：每次使用法力牌获得2点法力，【龙卷风】：每次获得的法力增加50%，【魔力交叉】：将玩家初始法力增加2倍；key卡【飓风】：消耗并造成剩余法力*1的雷属性伤害，能打出下图的效果。</p>
+<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/htjwVK"><img src="https://z3.ax1x.com/2021/08/30/htjwVK.gif" alt="htjwVK.gif"></a></p>
+<p>&emsp;&emsp;杀戮尖塔的数学模型给玩家定了上限，但是影响卡组的强度并不只是数值，还有“运转”，这部分要在2.2.1中说，总而言之，杀戮尖塔更强调整个卡组之间的运转，通过联携打伤害，单卡伤害具有上限（观者能突破这个上限），怪物和玩家数值曲线相近甚至超过玩家的数值成长路线，难度曲线陡峭；月圆之夜为了降低门槛，把单卡数值效果做的非常夸张，简单的卡组就能打出爆炸伤害，玩家数值的成长速度远大于怪物的数值成长速度，难度曲线平缓，对于普通玩家更友好。</p>
+<h3 id="2-2-DBG的战斗系统"><a href="#2-2-DBG的战斗系统" class="headerlink" title="2.2 DBG的战斗系统"></a>2.2 DBG的战斗系统</h3><p>DBG的战斗系统主要由4个核心元素构成：敌我状态、能量点、敌人AI、卡牌操作检索区域；除此之外还有装备/遗物/天赋和药水等其他战斗要素。<br><a target="_blank" rel="noopener" href="https://imgtu.com/i/hMH6Z6"><img src="https://z3.ax1x.com/2021/08/27/hMH6Z6.png" alt="hMH6Z6.png"></a></p>
+<h4 id="2-2-1-战斗规则的核心-卡组循环"><a href="#2-2-1-战斗规则的核心-卡组循环" class="headerlink" title="2.2.1 战斗规则的核心-卡组循环"></a>2.2.1 战斗规则的核心-卡组循环</h4><p>&emsp;&emsp;DBG卡牌规则或者说是战斗系统的基础叫做“卡组循环”，这一概念最早是从《DreamQuest》中提出的，玩家的操作区域存在四个部分：手牌、弃牌堆、抽牌堆；</p>
+<p>&emsp;&emsp;用一张图来简单的表示卡组循环的过程：</p>
+<p><img src="https://img-blog.csdnimg.cn/fbc129ac7227437f9f288a89230c7470.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ZlbmdndWFuMjAxOQ==,size_16,color_FFFFFF,t_70#pic_center" alt="卡组循环"></p>
+<p>&emsp;&emsp;卡组循环能让玩家的不同手牌以不同起点出发，最终都会从终点重新回到起点，能够避免玩家永远在抽不到某张卡的尴尬局面，卡牌越少，越能快速实现卡组循环，这对于想尽快打出自己想要的combo的行为是有利的。</p>
+<p>&emsp;&emsp;对于DBG游戏来说，卡组循环规则有两类，一种是“有限循环”，即DQ和月圆之夜这种，当玩家牌库在这一回合全部抽空时，弃牌堆不会向抽牌堆补充，玩家最多只能在一回合循环完一次卡组，打出的手牌上限就是牌库的上限。另一种规则则是类似《杀戮尖塔》的“无限循环”，当抽牌堆卡牌数量不足以补全手牌时，弃牌堆的牌会自动洗牌进入抽牌堆，玩家只要费用足够，一回合可以实现“无限运转”，大大提高了游戏的上限。</p>
+<p>&emsp;&emsp;上文提到《杀戮尖塔》设计者希望玩家把重点放在卡组之间的配合上注重随机性给玩家带来的多元化体验，因而不希望玩家过度依赖某些强力key卡，所以单卡数值偏保守，但玩家可以通过良好卡组的运转，在一回合实现多次卡组循环。而月圆之夜的随机性可控，面向非策略游戏核心用户，设计者希望用户简单的思考就能产生强力的正反馈，所以单卡效果夸张，数值不设上限，但是由于一回合最多只能循环一次，所以游戏策略上限比较低。</p>
+<p>&emsp;&emsp;在DBG中操控卡组循环的关键是控能量点（行动点），卡的效果和费用挂钩，杀戮尖塔初始能量点为3，可以通过遗物增加初始能量点数量；月圆之夜的初始能量点为1，可以通过升级和装备来增加初始能量点数量。能量最主要的来源是能量牌，对于杀戮尖塔来说，能够增加能量的牌都有一定条件，玩家必须确保卡组能达成combo才能增加一回合使用的能量点；月圆之夜有大量增加能量点的过牌，不仅能增加能量点还能多抽牌几乎不需要玩家支付代价。</p>
+<blockquote>
+<p>&emsp;&emsp;月圆之夜的行动点卡实际上并没考虑到过多与职业特性配合的问题，只是单纯的提供无代价的过牌效果确保玩家的“快而爽”的体验，一张卡在不同职业中也能适用。<br /><br>&emsp;&emsp;杀戮尖塔则非常重视玩家卡组之间的配合性，例如战士职业的“飞身踢”，玩家卡组里必须有多张能附加易伤的卡牌才能达成，运用得当甚至可以无限“飞身踢”，而“隐秘打击”则需要玩家多丢弃牌，与盗贼职业本身的弃牌思路相吻合。<br /><br><a target="_blank" rel="noopener" href="https://imgtu.com/i/hQuUud"><img src="https://z3.ax1x.com/2021/08/27/hQuUud.png" alt="hQuUud.png"></a></p>
+</blockquote>
+<p>&emsp;&emsp;获取能量的方式也是不同职业之间的重要标志<br /><br>战士：卖血或者叠加易伤加能量<br /><br>机器人：通过控制“等离子球”的产生与释放实现能量控制<br /><br>盗贼：弃牌或者叠加虚弱获得能量<br /><br>观者：姿态切换获得能量<br /><br>在月圆之夜中，还有个“机械师”职业专门做了一个叠行动点越多伤害越高的奇特流派</p>
+<p>此外，在月圆之夜里还有法力值的概念，敌我都有法力值和行动点，月圆之夜分为物理攻击牌和魔法牌，魔法牌伤害值比物理牌高，同时也要消耗一定的法力值，玩家拿到的法力牌既可以增加法力，又是过牌。在一些职业，玩家需要维持法力和输出牌消耗的平衡，同时玩家可以利用一些特殊装备和卡牌把法力值转换为法术伤害或者护盾，法力值的使用方法也是月圆之夜区分职业的重要标志之一。</p>
+<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/hMOjA0"><img src="https://z3.ax1x.com/2021/08/27/hMOjA0.png" alt="hMOjA0.png"></a></p>
+<h4 id="2-2-2-经典流派设计案例"><a href="#2-2-2-经典流派设计案例" class="headerlink" title="2.2.2 经典流派设计案例"></a>2.2.2 经典流派设计案例</h4><p>玩家反复体验不同职业的不同打法流派是DBG重玩性的重要一环。</p>
+<p><strong>月圆之夜：</strong><br /><br>&emsp;&emsp;月圆之夜在职业设计上构思了很多创新玩法，从传统的盾防战、叠毒叠伤战、反伤自残，到多段伤害、爆费消耗敌方手牌、法力膨胀OTK、刮痧回牌等流派都面面俱到，在丰富的同时不失趣味，可以成为设计卡牌游戏的借鉴。<br /><br><a target="_blank" rel="noopener" href="https://imgtu.com/i/hU3lrj"><img src="https://z3.ax1x.com/2021/08/31/hU3lrj.png" alt="hU3lrj.png"></a></p>
+<p>&emsp;&emsp;<strong>1.游侠-闪避流：</strong>装备为增加25%闪避的护符X2+10%闪避效果服装+闪避成功时造成6点雷属性伤害的飞刀X2+增加闪避效果的牌+闪避时对敌人造成6点闪电伤害的天赋……基本能达成90%以上的闪避，每次闪避都会对敌人造成飞镖数量的反击，不出牌也能躺赢，是多段攻击敌人的克星。<br /><br><a target="_blank" rel="noopener" href="https://imgtu.com/i/hNFsTs"><img src="https://z3.ax1x.com/2021/08/30/hNFsTs.gif" alt="hNFsTs.gif"></a></p>
+<p>&emsp;&emsp;<strong>2.药剂师鸡尾酒流：</strong><br /><br>利用雪克壶或者调酒杯+强效牌+鸡尾酒反复把牌库中所有种类的药剂牌全部打出，然后利用多重感染爆发收场。鸡尾酒流几乎没有缺陷：燃烧（敌人每次出牌就造成同等层数的伤害）保证输出，粘性牌（有几率无效化敌人的卡牌）和冰冻牌（减相同层数的伤）保证防御和生存，算是非常全能超模的强势流派。<br /><br><a target="_blank" rel="noopener" href="https://imgtu.com/i/hNkTKS"><img src="https://z3.ax1x.com/2021/08/30/hNkTKS.gif" alt="hNkTKS.gif"></a></p>
+<p>&emsp;&emsp;<strong>3.契约师审判流：</strong><br /><br>每积攒10点审判会获得强力牌——死神降临，每增加10点审判，死神降临攻击增加1次触发，消耗不变，是一种多段伤害流派的经典设计，成型后可以一回合造成单卡10段以上的伤害次数，需要快速放大自身审判层数和吸血吸蓝的卡牌。<br /><br><a target="_blank" rel="noopener" href="https://imgtu.com/i/hU1Z3F"><img src="https://z3.ax1x.com/2021/08/31/hU1Z3F.gif" alt="hU1Z3F.gif"></a></p>
+<p><strong>杀戮尖塔：</strong><br /><br>&emsp;&emsp;杀戮尖塔没有抓牌检测和概率保护，很难生硬的凑出一套纯净的某流派牌组，而且只抓单一流派牌，卡组的攻和防能力都不会很均衡，容易在某些特殊性质敌人的关卡暴毙。因此杀戮尖塔的流派实际上是从每种功能的卡里分别挑选几张强力牌组成一套完整的卡组组成的一套“体系”，然后再根据卡组和遗物的搭配查漏补缺。<br /><br>以杀戮尖塔的攻防均衡的铁甲战士职业为例：<br /><br>&emsp;&emsp;<strong>战士体系：</strong><br /><br>输出：加力量+多段攻击的力量流、放血流、格挡把格挡转换为输出的流派、多次释放卡牌数值会进化的成长流派、烧牌消耗流…….<br /><br>防御：和烧牌联动塞状态的防御流、循环过牌防御流、反制反伤流……<br /><br>这些流派都很难自成一体，需要大量的卡牌联携运转组成一套“体系”才能带的动，打得出。<br /><br>战士初始卡组的打击防御基础牌比较多，删牌代价很大，因此要精简卡组主要靠“消耗”手段缩减卡组，在消耗的同时携带消耗产生增益（力量、护甲、能量）的卡组，在保证防御的同时快速叠加力量，达到攻防的均衡。<br /><br><a target="_blank" rel="noopener" href="https://imgtu.com/i/hUBZoF"><img src="https://z3.ax1x.com/2021/08/31/hUBZoF.gif" alt="hUBZoF.gif"></a></p>
+<h4 id="2-2-3-流派or去流派化"><a href="#2-2-3-流派or去流派化" class="headerlink" title="2.2.3 流派or去流派化"></a>2.2.3 流派or去流派化</h4><p>&emsp;&emsp;流派的本质是整个卡组系统中出现了一个“绝对核心”，其他的卡仅为这个核心服务。流派的好处是让玩家快速上手游戏，理解游戏卡牌构筑的原理，但缺点是与rouge模式的随机性相悖，限制了玩家思考的多样性，容易消耗游戏的寿命。<br /><br>&emsp;&emsp;在设计卡牌游戏的过程中，设计者很容易产生关于流派的思维定式，例如只是单纯的希望玩家尽可能组一套纯粹的燃烧、中毒、多次攻击的卡组，混合的流派卡组会影响单一流派的过牌速度或者卡手，但是这种思路比较僵化，玩家过于追求流派化组合，其他卡牌的价值得不到重视，并且这种思路完全破坏了rouge模式想要带给玩家的体验。</p>
+<p><strong>○ 流派化的概率保护</strong><br /><br>&emsp;&emsp;月圆之夜为了降低门槛，特意做了效果夸张的流派化，虽然与rouge模式的体验相悖，但是设计者为了弥补随机性对玩家负面的影响，在代码中加入了“概率保护”机制：当系统检测到玩家牌库有某一组卡流派倾向时，就会在这一层的商店、宝箱中加入大量的相同流派的相关卡牌，确保玩家组流派卡过程的顺利。而且月圆之夜的流派卡成型后数值非常夸张，足以克服某一流派的短板，例如小女巫的法力流派——当玩家获得一点法力就会对敌人造成一点物理伤害，有一件核心装备的作用是每对敌人造成一点法术伤害就会获得1点法力，也就是说玩家可以直接抛开法力消耗问题，直接放一个高消耗的法术，获得同等消耗的法力+对敌人造成同等的物理伤害，法力越打越多，收益滚雪球式的成倍增长。</p>
+<p><strong>○ 去流派化的完美平衡</strong><br /><br>&emsp;&emsp;这一点上，杀戮尖塔主张去流派化，设计者为不同倾向的卡牌设置了不同的环境（敌人特性），当玩家的卡组仅局限于一个作用时，往往无法通过多个复杂环境的检测。所以玩家必须组一套和其他各种“流派”相联通的卡组，克服单一流派带来的局限性。非流派化的卡组虽然不如单一流派化的卡组简洁，但充分联通了不同类型卡组的功能，能让玩家克服某一流派的短板，达到攻防兼备的完美卡组。</p>
+<h4 id="2-2-4-战斗表现"><a href="#2-2-4-战斗表现" class="headerlink" title="2.2.4 战斗表现"></a>2.2.4 战斗表现</h4><p>&emsp;&emsp;不依赖华丽的动画和精美的立绘，为何《月圆之夜》和《杀戮尖塔》的战斗表现如此精彩？<br /><br>&emsp;&emsp;DBG的打击感的来源于卡牌连锁反应之间的视觉表现，为了体现连锁，buff和攻击的特效和音效做的非常明显与夸张，以下图的旋风斩为例，特效分为全屏刀光，击中敌人的黄色刀光，敌人流血。特效被拆解为释放特效-击中特效-反馈特效，攻击的段数越多，击中特效和反馈特效的释放次数越多，每一击都有足够的即时反馈。<br /><br>&emsp;&emsp;<a target="_blank" rel="noopener" href="https://imgtu.com/i/hnTe3t"><img src="https://z3.ax1x.com/2021/08/26/hnTe3t.gif" alt="杀戮尖塔"></a></p>
+<p>DBG的战斗表现来源于：<br /><br>1.每层每段攻击的即时反馈（每段立刻生效的攻击特效、每段伤害飚字、屏幕震动、符合段数的音效）<br /><br>2.敌人受击时的夸张表现（受击动作、击中特效、血、飞溅的火星、血条的延迟下降）<br /><br>3.卡牌连锁的特效变化（根据buff叠的层数特效颜色，大小产生不同变化）<br /></p>
+<p>&emsp;&emsp;<img src="https://www.hualigs.cn/image/612761f42c2d1.jpg" alt="月圆之夜"></p>
+<h4 id="2-2-5-敌人设计"><a href="#2-2-5-敌人设计" class="headerlink" title="2.2.5 敌人设计"></a>2.2.5 敌人设计</h4><p>&emsp;&emsp;DBG的关卡设计主要体现在敌人设计上，敌人的不同特性的本质是改变玩家打牌的环境以影响玩家的牌序和构筑思路。<br /></p>
+<p><strong>正面教材</strong><br /><br>&emsp;&emsp;《杀戮尖塔》本身不会设计明显针对玩家构筑流派的敌人，敌人的特性往往和卡组运转和玩家成长性挂钩，设计者不会很粗暴的给敌人设置一个永久免疫某些debuff的特性，也不会设计针对某种流派的弱点。《杀戮尖塔》最优秀的设计就是敌人的“攻击意图”，玩家可以根据敌人下回合的行动打出不同的牌序，思考不同回合最大收益，对于玩家来说这样更有掌控感。由于杀戮尖塔的去流派化，敌人的特性往往考验玩家的卡组循环速度、能量操控手段、卡牌攻防的均衡性，例如第一层BOSS史莱姆的特性是会给玩家的牌库塞垃圾牌，血量到达50%会分裂成两只史莱姆，这就考验玩家的过牌能力，能不能快速过滤掉塞给玩家的垃圾牌并且在BOSS血量即将到达50%的时候一回合尽量打最大的输出。<br /></p>
+<p><strong>正面教材·举例</strong><br /><br>杀戮尖塔一层boss-守护者:<br /><br><a target="_blank" rel="noopener" href="https://imgtu.com/i/hUDN7T"><img src="https://z3.ax1x.com/2021/08/31/hUDN7T.png" alt="hUDN7T.png"></a></p>
+<p>自身具备两种形态：攻击形态和防御形态，一开始为攻击形态，输出非常的高，但是受到一定伤害（30、40、50….每次切形态后转换姿态的伤害会增加）后会进入不攻击的防御形态，守护者的防御形态会附带3点反伤，防御形态持续两回合后会重新进入高伤害的攻击形态。<br /><br>难点与攻克方法：作为第一层的boss，出招非常有规律，比较考验玩家当前卡组的输出能力，每次会阶段性的进入防御姿态，足够给玩家大量的时间叠buff准备高伤害的攻击。</p>
+<p>杀戮尖塔一层boss-史莱姆:<br><a target="_blank" rel="noopener" href="https://imgtu.com/i/hUc1OA"><img src="https://z3.ax1x.com/2021/08/31/hUc1OA.png" alt="hUc1OA.png"></a></p>
+<p>蓄力2回合，第三回合后会造成巨大的伤害，当血量低于50%时会立刻打断当前的攻击分裂成两只继承剩余血量的中型史莱姆，两只中型史莱姆血量低于50%时会再次分裂成2只继承当前血量的小型史莱姆，中小史莱姆都会给玩家塞粘液垃圾牌并且降低玩家的护甲值。<br /><br>难点与攻克方法：设计非常有趣的一只低难度boss，缺少群攻手段的玩家其实比较吃力，需要控制每只史莱姆的血量，在达到他们分裂的血线时尽可能造成最大伤害降低他们分裂后的血量。考验玩家单回合输出和过牌能力，作为第一层的boss并没有给玩家过多的压力。</p>
+<p>杀戮尖塔三层精英-倏忽魔:<br><a target="_blank" rel="noopener" href="https://imgtu.com/i/hUgWUP"><img src="https://z3.ax1x.com/2021/08/31/hUgWUP.png" alt="hUgWUP.png"></a><br>血量上限达到惊人999，但是4回合后自动死亡，每回合伤害都会剧增，但是受到伤害时也会减少同等的力量，非常考验玩家的输出能力，只靠护甲苟着是不可以的。<br /><br>难点与攻克方法：输出就是最好的防御，到了第三层，这个怪的成长性非常离谱，就相当考验玩家的卡组运转能力，尽快的完成卡组循环打出key卡叠加伤害就越能对该敌人造成伤害，如果能达成无限卡组，还有概率把这个敌人在一回合内击杀。</p>
+<p><strong>反面教材</strong><br /><br>&emsp;&emsp;《无尽航线》是一款国内暴死的DBG游戏，不仅犯了我前面说的诸多思维僵化的错误，还没有像月圆之夜一样自降难度，改善用户体验。它的敌人设计简直就是个灾难，《无尽航线》很依赖能量和buff卡牌的加成，牌序对于游戏来说至关重要，但是某几个怪的特性是无效化玩家的偶数牌，不能连续出同类型的牌等，严重干扰玩家依赖牌序输出的策略，与依赖局内牌序打combo的策略玩法严重冲突；第一关的关底boss的特性是每受到一段攻击，就会对玩家造成一次灼烧，主要用多段攻击输出的玩家就举步维艰。开发者提供了比较刻板的流派倾向，却又给这些流派设置了绊子，并且很多敌人的解法唯一，非常依赖单一的流派来解，只是仅仅给玩家设置了不同“环境”，却没有为拿单一流派牌的玩家应对多元的“环境”提供解决措施。<br /><br><strong>反思</strong><br /><br>&emsp;&emsp;《无尽航线》的设计者的思维误区是典型的从“答案”出发，自己设解，却忽略了在rouge模式下玩家选择的多元性和实际游戏体验。结合《杀戮尖塔》和《月圆之夜》的怪物设计，设计敌人应该具备以下几点原则：<br /><br>1.与游戏核心玩法契合，敌人的机制不会和基本打牌策略冲突<br /><br>2.以考验玩家卡组循环速度和卡组构筑为目的，敌人的定位要明确，敌人的特性要指向考验玩家某一方向的能力而不是指向某种流派<br /><br>3.以玩家的体验出发，不能设计为了恶心玩家而恶心的特殊敌人机制，玩家不是策划的敌人<br /></p>
+<h2 id="三、总结"><a href="#三、总结" class="headerlink" title="三、总结"></a>三、总结</h2><p>&emsp;&emsp;设计者设计DBG时首先要考虑的是受众定位，如果希望受众是轻度策略游戏玩家，则要设计明显的流派细分，降低游戏门槛。如果希望受众是重度策略玩家，则要讲究去流派化，不把玩家的思路拘泥在单一的套路中，为玩家打牌提供复杂多变的验证环境，让玩家在rougelike的多样性的影响下随机应变。<br /><br>&emsp;&emsp;其次，要思考游戏体验与创新，对于轻度策略游戏玩家，游戏难度曲线设计平滑，数值上不用特意设置上限但要设置下限，可以追求创新形式、吸引眼球的新玩法例如：<br /><br>&emsp;&emsp;DBG+<strong>塔防</strong>=《怪物火车》：结合塔防与DBG的模式，玩家不仅要解场守塔，还要规划自身的成长路线。<br /><br>&emsp;&emsp;DBG+<strong>RPG</strong>=《欺诈之地》：按照RPG叙事的方式展开游戏，把玩家与NPC交涉的过程具象化成打牌游戏，增加NPC好感体验新奇故事，也是一种DBG可以发展的方向。<br /><br>&emsp;&emsp;DBG+<strong>美少女</strong>=《无尽宇宙》：虽然难度陡峭，战斗深度一般，但是……有美少女啊！<br /><br><a target="_blank" rel="noopener" href="https://imgtu.com/i/hUG0ER"><img src="https://z3.ax1x.com/2021/08/31/hUG0ER.png" alt="hUG0ER.png"></a><br /><br>&emsp;&emsp;DBG+<strong>即时制</strong>=《伊甸之路》：洛克人exe精神续作，玩家在考虑走位躲避技能的同时收集不同流派的技能卡牌，搭配出强力的技能流派击溃对手。<br /><br>&emsp;&emsp;DBG+<strong>？</strong>=？<br /><br>&emsp;&emsp;……<br /><br>游戏体验侧重于让玩家打的“简单而爽快”。<br /></p>
+<p>对于重度策略玩家，游戏体验是力求玩家进入心流“高挑战高奖励”的状态，在关卡设计上主动设计不确定的因素确保玩家单局策略性重要度大于抽到key卡的运气性，单卡设置数值上限，确保贯穿始末的重构筑过程。游戏体验侧重于让玩家打的“精彩而有挑战”。<br /></p>
+<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/hKjt7q"><img src="https://z3.ax1x.com/2021/08/27/hKjt7q.png" alt="心流体验"></a></p>
+<h2 id="本文参考文章"><a href="#本文参考文章" class="headerlink" title="本文参考文章"></a>本文参考文章</h2><p>python爬虫——爬取taptap游戏的评论信息（通过fiddler抓包）：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44024393/article/details/89354893">https://blog.csdn.net/weixin_44024393/article/details/89354893</a><br /><br>【长贴】当我把月圆和尖塔对比后，我发现了什么：<a target="_blank" rel="noopener" href="https://tieba.baidu.com/p/6120522072?see_lz=1#125437283712l">https://tieba.baidu.com/p/6120522072?see_lz=1#125437283712l</a><br /><br>从机器人和观者出发，浅谈尖塔流派观念的影响：<a target="_blank" rel="noopener" href="https://tieba.baidu.com/p/6655110734">https://tieba.baidu.com/p/6655110734</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/11/06/CardGame/" data-id="ckybpgbvc0004x0ul01iv4wcs" data-title="DBG为何如此上头——从战斗关卡设计说起" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/11/06/DQ11S/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          DQ11S战斗表现拆解
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/11/06/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">理想乡宾客须知</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/12/12/ItTakesTwo/">双人成行关卡拆解与分析</a>
+          </li>
+        
+          <li>
+            <a href="/2021/11/06/thecameraof7ds/">七大罪镜头全解析</a>
+          </li>
+        
+          <li>
+            <a href="/2021/11/06/Attendantsystem/">如何让游戏更有人情味——谈谈我心中的伙伴和家园系统</a>
+          </li>
+        
+          <li>
+            <a href="/2021/11/06/GameProgram01/">游戏开发记录-技能指示线和摇杆操作实现</a>
+          </li>
+        
+          <li>
+            <a href="/2021/11/06/DQ11S/">DQ11S战斗表现拆解</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

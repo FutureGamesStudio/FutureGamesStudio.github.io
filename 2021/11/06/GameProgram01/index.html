@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>游戏开发记录-技能指示线和摇杆操作实现 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="本文概要：显示指示线和技能角度以joystick插件实现摇杆释放和取消技能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="游戏开发记录-技能指示线和摇杆操作实现">
+<meta property="og:url" content="http://example.com/2021/11/06/GameProgram01/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="本文概要：显示指示线和技能角度以joystick插件实现摇杆释放和取消技能">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/6bd1a11c926a419680571b71a2443b7d.gif#pic_center">
+<meta property="og:image" content="https://z3.ax1x.com/2021/08/25/hedeE9.png">
+<meta property="og:image" content="https://z3.ax1x.com/2021/08/25/heaH9P.png">
+<meta property="article:published_time" content="2021-11-06T00:47:18.929Z">
+<meta property="article:modified_time" content="2021-11-06T00:53:30.463Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/6bd1a11c926a419680571b71a2443b7d.gif#pic_center">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 6.0.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-GameProgram01" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/11/06/GameProgram01/" class="article-date">
+  <time class="dt-published" datetime="2021-11-06T00:47:18.929Z" itemprop="datePublished">2021-11-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      游戏开发记录-技能指示线和摇杆操作实现
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>本文概要：<br>显示指示线和技能角度<br>以joystick插件实现摇杆释放和取消技能</p>
+<span id="more"></span>
+<h2 id="先放一张最终效果图"><a href="#先放一张最终效果图" class="headerlink" title="先放一张最终效果图"></a>先放一张最终效果图</h2><p><img src="https://img-blog.csdnimg.cn/6bd1a11c926a419680571b71a2443b7d.gif#pic_center" alt="摇杆释放技能"></p>
+<p>技能角度和摇杆角度相同，松手发射技能（子弹）</p>
+<h2 id="显示指示线和技能角度"><a href="#显示指示线和技能角度" class="headerlink" title="显示指示线和技能角度"></a>显示指示线和技能角度</h2><p>让人物自身发散出技能范围最方便的就是在人物上挂在技能UI的子物体，子物体由三个部分组成：半圆形技能范围图片、指示线的中心店poivt、技能指示线，其中技能指示线要挂在在poivr上，这样旋转poivt，指示线也能跟着poivt旋转，结构如下图所示：</p>
+<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/hedeE9"><img src="https://z3.ax1x.com/2021/08/25/hedeE9.png" alt="hedeE9.png"></a></p>
+<p>下面进入unity商店下载并import joystick插件，将其中一个prefabs拖到Canvas中，我们可以通过代码读取joystick的中心位置，通过下图的角度关系，我们可以得：<br /><br>θ=Arctanjoystick.Vertical / joystick.Horizontal)，其中θ为弧度，还需要转成角度制，在第一象限内，技能角度=θ角度-90；第二象限内，技能角度=θ角度+90</p>
+<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/heaH9P"><img src="https://z3.ax1x.com/2021/08/25/heaH9P.png" alt="heaH9P.png"></a></p>
+<p>玩家可以释放的角度范围为-90~90，即禁用第三第四象限。完整代码如下：<br> <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">if(joystick.Vertical!=0 || joystick.Horizontal != 0)//摇杆不在圆心时</span><br><span class="line">      &#123;</span><br><span class="line"></span><br><span class="line">          IsRealse = true;</span><br><span class="line"></span><br><span class="line">          SkillPrefabs.SetActive(true);</span><br><span class="line">          if (joystick.Horizontal &gt; 0 &amp;&amp; joystick.Vertical &gt; 0)//第一象限时</span><br><span class="line">          &#123;</span><br><span class="line">              Skillangle = Mathf.Atan(joystick.Vertical / joystick.Horizontal)* Mathf.Rad2Deg - 90;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">              SkillPivot.transform.rotation = Quaternion.Euler(0, 0, Skillangle);</span><br><span class="line"></span><br><span class="line">          &#125;</span><br><span class="line">          else if (joystick.Horizontal == 0)</span><br><span class="line">          &#123;</span><br><span class="line">              SkillPivot.transform.rotation = Quaternion.Euler(0, 0, 0);//在(0,1)点时角度为0</span><br><span class="line">          &#125;</span><br><span class="line">          else if (joystick.Horizontal &lt; 0 &amp;&amp; joystick.Vertical &gt; 0)//第2象限时</span><br><span class="line">          &#123;</span><br><span class="line">              Skillangle = Mathf.Atan(joystick.Vertical / joystick.Horizontal) * Mathf.Rad2Deg + 90;</span><br><span class="line"></span><br><span class="line">              SkillPivot.transform.rotation = Quaternion.Euler(0, 0, Skillangle);</span><br><span class="line"></span><br><span class="line">          &#125;else if (joystick.Vertical &lt; 0 &amp;&amp; joystick.Horizontal&lt;0)//第3象限时</span><br><span class="line">          &#123;</span><br><span class="line">              SkillPivot.transform.rotation = Quaternion.Euler(0, 0, 90);</span><br><span class="line">          &#125;</span><br><span class="line">          else if (joystick.Vertical &lt; 0 &amp;&amp; joystick.Horizontal &gt; 0)//第4象限时</span><br><span class="line">          &#123;</span><br><span class="line">              SkillPivot.transform.rotation = Quaternion.Euler(0, 0, -90);</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line">      else</span><br><span class="line">      &#123;</span><br><span class="line">          if (IsRealse)</span><br><span class="line">          &#123;</span><br><span class="line">              SkillShot();</span><br><span class="line"></span><br><span class="line">          &#125;</span><br><span class="line">          SkillPrefabs.SetActive(false);</span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<h2 id="实现摇杆释放和取消技能"><a href="#实现摇杆释放和取消技能" class="headerlink" title="实现摇杆释放和取消技能"></a>实现摇杆释放和取消技能</h2><p>1.释放：只需要脱手技能释放技能<br /><br>2.取消：当玩家拖动遥感触碰取消框时取消技能</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/11/06/GameProgram01/" data-id="ckybpgbv90001x0ulhpe9ba5l" data-title="游戏开发记录-技能指示线和摇杆操作实现" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/11/06/Attendantsystem/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          如何让游戏更有人情味——谈谈我心中的伙伴和家园系统
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/11/06/DQ11S/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">DQ11S战斗表现拆解</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/12/12/ItTakesTwo/">双人成行关卡拆解与分析</a>
+          </li>
+        
+          <li>
+            <a href="/2021/11/06/thecameraof7ds/">七大罪镜头全解析</a>
+          </li>
+        
+          <li>
+            <a href="/2021/11/06/Attendantsystem/">如何让游戏更有人情味——谈谈我心中的伙伴和家园系统</a>
+          </li>
+        
+          <li>
+            <a href="/2021/11/06/GameProgram01/">游戏开发记录-技能指示线和摇杆操作实现</a>
+          </li>
+        
+          <li>
+            <a href="/2021/11/06/DQ11S/">DQ11S战斗表现拆解</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2022 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
