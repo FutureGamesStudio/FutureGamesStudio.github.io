@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://z3.ax1x.com/2021/09/18/4Q47Jx.png">
 <meta property="og:image" content="https://z3.ax1x.com/2021/09/18/4QLJFe.png">
 <meta property="article:published_time" content="2021-09-14T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-01-13T12:24:51.064Z">
+<meta property="article:modified_time" content="2022-01-13T15:37:06.976Z">
 <meta property="article:author" content="金子琦">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://s3.bmp.ovh/imgs/2022/01/2f0da371c9938f8e.png">
@@ -190,7 +190,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-13 20:24:51" itemprop="dateModified" datetime="2022-01-13T20:24:51+08:00">2022-01-13</time>
+                <time title="修改时间：2022-01-13 23:37:06" itemprop="dateModified" datetime="2022-01-13T23:37:06+08:00">2022-01-13</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -208,7 +208,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.4k</span>
+              <span>1.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -244,8 +244,9 @@
 <h2 id="二、buff配置元素"><a href="#二、buff配置元素" class="headerlink" title="二、buff配置元素"></a>二、buff配置元素</h2><p><a target="_blank" rel="noopener" href="https://imgtu.com/i/4QLJFe"><img src="https://z3.ax1x.com/2021/09/18/4QLJFe.png" alt="4QLJFe.png"></a><br>1.名称<br /><br>2.图标<br /><br>3.buff详细描述内容<br /><br>4.buff是否检测命中<br /><br>5.基础效果命中<br /><br>6.层数<br /><br>7.生效回合<br /><br>8.额外结束/触发条件<br /><br>9.buff效果<br /></p>
 <h3 id="2-1-buff效果配置元素"><a href="#2-1-buff效果配置元素" class="headerlink" title="2.1 buff效果配置元素"></a>2.1 buff效果配置元素</h3><p>1.buff主类型（1.减益、2.增益、3.光环、4.控制、5.特殊）<br /><br>2.buff子类型<br /><br>3.回合刷新节点<br /><br>4.叠加层数机制（1.叠加2.直接覆盖3.不处理）<br /><br>5.叠加回合机制（1.延长2. 刷新3. 不处理）<br /><br>6.buff上限层数<br /><br>7.互斥组<br /><br>8.buff额外互斥条件<br /><br>9.buff触发条件<br /><br>7.buff作用机制（1.turn变化2.round变化3.行动4.满足触发条件即时触发5. 属性(只能有一个logic）6.状态、护盾）<br /><br>8.相关参数<br /><br>9.buff移除时的触发效果<br /><br>10.效果作用N次后移除<br /><br>11.BUFF数值ID（1对多）<br /></p>
 <h3 id="2-2-buff效果层数配置元素"><a href="#2-2-buff效果层数配置元素" class="headerlink" title="2.2 buff效果层数配置元素"></a>2.2 buff效果层数配置元素</h3><p>主要是每层的不同表现和数值曲线变化表<br /></p>
-<h2 id="2-3、回合制debuff-buff设计一般需要考虑的重要维度"><a href="#2-3、回合制debuff-buff设计一般需要考虑的重要维度" class="headerlink" title="2.3、回合制debuff/buff设计一般需要考虑的重要维度"></a>2.3、回合制debuff/buff设计一般需要考虑的重要维度</h2><h4 id="2-3-1叠加机制"><a href="#2-3-1叠加机制" class="headerlink" title="2.3.1叠加机制"></a>2.3.1叠加机制</h4><p>叠加型：常见的就例如中毒，虚弱，流血等debuff，每回合固定掉一层，只叠加层数。<br>覆盖型：新效果覆盖旧效果，低优先级无法覆盖高优先级，例如2层寒冷会造成冰冻，则敌人处于冰冻Buff状态时无法在积累寒冷，而是持续刷新冰冻持续的回合时间。当然某些游戏防止永冻超模的流派，也会把该种机制变为：冰冻Buff持续n回合，无论在冰冻buff状态下被施加多少层数的寒冷，冰冻结束后仅会保留一次寒冷，这样就能避免永冻的情况。这两种机制适合不同思路的游戏战斗设计。<br /></p>
-<h4 id="2-3-2优先级机制"><a href="#2-3-2优先级机制" class="headerlink" title="2.3.2优先级机制"></a>2.3.2优先级机制</h4>
+<h2 id="2-3、回合制debuff-buff设计一般需要考虑的重要维度"><a href="#2-3、回合制debuff-buff设计一般需要考虑的重要维度" class="headerlink" title="2.3、回合制debuff/buff设计一般需要考虑的重要维度"></a>2.3、回合制debuff/buff设计一般需要考虑的重要维度</h2><h4 id="2-3-1叠加机制"><a href="#2-3-1叠加机制" class="headerlink" title="2.3.1叠加机制"></a>2.3.1叠加机制</h4><p>叠加型：分为两种，第一种是buff每回合固定掉一层，只叠加层数不叠加回合数。另一种是虽然buff可以叠加，但是层数不会自然消失，该buff不管多少层都视作一个整体，在n回合后自动消失，当叠加时会刷新回合数，也就是说如果玩家每回合都叠该Buff将一直存在，除非满足特殊条件buff才会消失。<br /><br>覆盖型：新效果覆盖旧效果，低优先级无法覆盖高优先级，例如2层寒冷会造成冰冻，则敌人处于冰冻Buff状态时无法在积累寒冷，而是持续刷新冰冻持续的回合时间。当然某些游戏防止永冻超模的流派，也会把该种机制变为：冰冻Buff持续n回合，无论在冰冻buff状态下被施加多少层数的寒冷，冰冻结束后仅会保留一次寒冷，这样就能避免永冻的情况。这两种机制适合不同思路的游戏战斗设计。<br /></p>
+<h4 id="2-3-2优先级"><a href="#2-3-2优先级" class="headerlink" title="2.3.2优先级"></a>2.3.2优先级</h4><p>低优先级Buff无法覆盖高优先级buff</p>
+
     </div>
 
     
@@ -325,7 +326,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%8A%80%E8%83%BD%E6%9E%84%E6%88%90"><span class="nav-number">1.</span> <span class="nav-text">一、技能构成</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 命名规范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E4%B8%BB%E5%8A%A8%E6%8A%80%E8%83%BD%E9%85%8D%E7%BD%AE%E5%85%83%E7%B4%A0"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 主动技能配置元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E6%8A%80%E8%83%BD%E6%95%88%E6%9E%9C%E9%85%8D%E7%BD%AE%E5%85%83%E7%B4%A0"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 技能效果配置元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-%E4%B8%BB%E5%8A%A8%E6%8A%80%E8%83%BD%E4%B8%80%E8%88%AC%E8%AE%BE%E8%AE%A1%E8%A7%84%E5%88%99"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 主动技能一般设计规则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-1-%E6%99%AE%E9%80%9A%E6%94%BB%E5%87%BB"><span class="nav-number">1.4.1.</span> <span class="nav-text">1.4.1 普通攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-2-%E7%89%B9%E6%AE%8A%E6%8A%80%E8%83%BD-amp-%E5%BF%85%E6%9D%80%E6%8A%80"><span class="nav-number">1.4.2.</span> <span class="nav-text">1.4.2 特殊技能&amp;必杀技</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81buff%E9%85%8D%E7%BD%AE%E5%85%83%E7%B4%A0"><span class="nav-number">2.</span> <span class="nav-text">二、buff配置元素</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-buff%E6%95%88%E6%9E%9C%E9%85%8D%E7%BD%AE%E5%85%83%E7%B4%A0"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 buff效果配置元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-buff%E6%95%88%E6%9E%9C%E5%B1%82%E6%95%B0%E9%85%8D%E7%BD%AE%E5%85%83%E7%B4%A0"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 buff效果层数配置元素</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3%E3%80%81%E5%9B%9E%E5%90%88%E5%88%B6debuff-buff%E8%AE%BE%E8%AE%A1%E4%B8%80%E8%88%AC%E9%9C%80%E8%A6%81%E8%80%83%E8%99%91%E7%9A%84%E9%87%8D%E8%A6%81%E7%BB%B4%E5%BA%A6"><span class="nav-number">3.</span> <span class="nav-text">2.3、回合制debuff&#x2F;buff设计一般需要考虑的重要维度</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-1%E5%8F%A0%E5%8A%A0%E6%9C%BA%E5%88%B6"><span class="nav-number">3.0.1.</span> <span class="nav-text">2.3.1叠加机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-2%E4%BC%98%E5%85%88%E7%BA%A7%E6%9C%BA%E5%88%B6"><span class="nav-number">3.0.2.</span> <span class="nav-text">2.3.2优先级机制</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%8A%80%E8%83%BD%E6%9E%84%E6%88%90"><span class="nav-number">1.</span> <span class="nav-text">一、技能构成</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 命名规范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E4%B8%BB%E5%8A%A8%E6%8A%80%E8%83%BD%E9%85%8D%E7%BD%AE%E5%85%83%E7%B4%A0"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 主动技能配置元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-%E6%8A%80%E8%83%BD%E6%95%88%E6%9E%9C%E9%85%8D%E7%BD%AE%E5%85%83%E7%B4%A0"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 技能效果配置元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-%E4%B8%BB%E5%8A%A8%E6%8A%80%E8%83%BD%E4%B8%80%E8%88%AC%E8%AE%BE%E8%AE%A1%E8%A7%84%E5%88%99"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 主动技能一般设计规则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-1-%E6%99%AE%E9%80%9A%E6%94%BB%E5%87%BB"><span class="nav-number">1.4.1.</span> <span class="nav-text">1.4.1 普通攻击</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4-2-%E7%89%B9%E6%AE%8A%E6%8A%80%E8%83%BD-amp-%E5%BF%85%E6%9D%80%E6%8A%80"><span class="nav-number">1.4.2.</span> <span class="nav-text">1.4.2 特殊技能&amp;必杀技</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81buff%E9%85%8D%E7%BD%AE%E5%85%83%E7%B4%A0"><span class="nav-number">2.</span> <span class="nav-text">二、buff配置元素</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-buff%E6%95%88%E6%9E%9C%E9%85%8D%E7%BD%AE%E5%85%83%E7%B4%A0"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 buff效果配置元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-buff%E6%95%88%E6%9E%9C%E5%B1%82%E6%95%B0%E9%85%8D%E7%BD%AE%E5%85%83%E7%B4%A0"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 buff效果层数配置元素</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3%E3%80%81%E5%9B%9E%E5%90%88%E5%88%B6debuff-buff%E8%AE%BE%E8%AE%A1%E4%B8%80%E8%88%AC%E9%9C%80%E8%A6%81%E8%80%83%E8%99%91%E7%9A%84%E9%87%8D%E8%A6%81%E7%BB%B4%E5%BA%A6"><span class="nav-number">3.</span> <span class="nav-text">2.3、回合制debuff&#x2F;buff设计一般需要考虑的重要维度</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-1%E5%8F%A0%E5%8A%A0%E6%9C%BA%E5%88%B6"><span class="nav-number">3.0.1.</span> <span class="nav-text">2.3.1叠加机制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-2%E4%BC%98%E5%85%88%E7%BA%A7"><span class="nav-number">3.0.2.</span> <span class="nav-text">2.3.2优先级</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -346,8 +347,10 @@
         </a>
       </div>
       <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
         <span class="site-state-item-count">4</span>
-        <span class="site-state-item-name">分类</span>
+        <span class="site-state-item-name">分类</span></a>
       </div>
   </nav>
 </div>
