@@ -20,24 +20,24 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="本文概要：显示指示线和技能角度，以joystick插件实现摇杆释放技能">
+  <meta name="description" content="本文概要：总结工作心得，美术资源匮乏时，如何用简单的素材把BOSS战做的丰富有趣。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="技能指示线和摇杆操作实现">
-<meta property="og:url" content="http://example.com/2020/08/20/GameProgram01/index.html">
+<meta property="og:title" content="如何用简单的素材把BOSS做的丰富有趣">
+<meta property="og:url" content="http://example.com/2022/06/06/EasyBOSS/index.html">
 <meta property="og:site_name" content="众神眷恋的理想乡">
-<meta property="og:description" content="本文概要：显示指示线和技能角度，以joystick插件实现摇杆释放技能">
+<meta property="og:description" content="本文概要：总结工作心得，美术资源匮乏时，如何用简单的素材把BOSS战做的丰富有趣。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s3.bmp.ovh/imgs/2022/01/b6d53ae67ccd2c22.png">
-<meta property="og:image" content="https://img-blog.csdnimg.cn/6bd1a11c926a419680571b71a2443b7d.gif#pic_center">
-<meta property="og:image" content="https://z3.ax1x.com/2021/08/25/hedeE9.png">
-<meta property="og:image" content="https://z3.ax1x.com/2021/08/25/heaH9P.png">
-<meta property="article:published_time" content="2020-08-19T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-01-13T15:37:00.087Z">
+<meta property="og:image" content="https://s3.bmp.ovh/imgs/2022/06/06/114c9362bcb00d23.png">
+<meta property="og:image" content="https://s1.ax1x.com/2022/06/06/XBPsh9.md.png">
+<meta property="og:image" content="https://s3.bmp.ovh/imgs/2022/06/06/a606ca540c06f808.png">
+<meta property="og:image" content="https://s1.ax1x.com/2022/06/06/XBE6Lq.md.png">
+<meta property="article:published_time" content="2022-06-05T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-06-06T15:37:37.293Z">
 <meta property="article:author" content="金子琦">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://s3.bmp.ovh/imgs/2022/01/b6d53ae67ccd2c22.png">
+<meta name="twitter:image" content="https://s3.bmp.ovh/imgs/2022/06/06/114c9362bcb00d23.png">
 
-<link rel="canonical" href="http://example.com/2020/08/20/GameProgram01/">
+<link rel="canonical" href="http://example.com/2022/06/06/EasyBOSS/">
 
 
 <script id="page-configurations">
@@ -50,7 +50,7 @@
   };
 </script>
 
-  <title>技能指示线和摇杆操作实现 | 众神眷恋的理想乡</title>
+  <title>如何用简单的素材把BOSS做的丰富有趣 | 众神眷恋的理想乡</title>
   
 
 
@@ -160,7 +160,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/08/20/GameProgram01/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/06/EasyBOSS/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -173,7 +173,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          技能指示线和摇杆操作实现
+          如何用简单的素材把BOSS做的丰富有趣
         </h1>
 
         <div class="post-meta">
@@ -183,23 +183,17 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2020-08-20 00:00:00" itemprop="dateCreated datePublished" datetime="2020-08-20T00:00:00+08:00">2020-08-20</time>
+              <time title="创建时间：2022-06-06 00:00:00 / 修改时间：23:37:37" itemprop="dateCreated datePublished" datetime="2022-06-06T00:00:00+08:00">2022-06-06</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-13 23:37:00" itemprop="dateModified" datetime="2022-01-13T23:37:00+08:00">2022-01-13</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">游戏开发</span></a>
+                  <a href="/categories/%E6%B8%B8%E6%88%8F%E5%88%86%E6%9E%90/" itemprop="url" rel="index"><span itemprop="name">游戏分析</span></a>
                 </span>
             </span>
 
@@ -209,7 +203,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.5k</span>
+              <span>1.6k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -228,15 +222,33 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>本文概要：<br>显示指示线和技能角度，以joystick插件实现摇杆释放技能<br><img src="https://s3.bmp.ovh/imgs/2022/01/b6d53ae67ccd2c22.png"></p>
+        <p>本文概要：<br>总结工作心得，美术资源匮乏时，如何用简单的素材把BOSS战做的丰富有趣。<br><img src="https://s3.bmp.ovh/imgs/2022/06/06/114c9362bcb00d23.png"></p>
 <span id="more"></span>
-<h2 id="先放一张最终效果图"><a href="#先放一张最终效果图" class="headerlink" title="先放一张最终效果图"></a>先放一张最终效果图</h2><p><img src="https://img-blog.csdnimg.cn/6bd1a11c926a419680571b71a2443b7d.gif#pic_center" alt="摇杆释放技能"></p>
-<p>技能角度和摇杆角度相同，松手发射技能（子弹）</p>
-<h2 id="显示指示线和技能角度"><a href="#显示指示线和技能角度" class="headerlink" title="显示指示线和技能角度"></a>显示指示线和技能角度</h2><p>让人物自身发散出技能范围最方便的就是在人物上挂在技能UI的子物体，子物体由三个部分组成：半圆形技能范围图片、指示线的中心店poivt、技能指示线，其中技能指示线要挂在在poivr上，这样旋转poivt，指示线也能跟着poivt旋转，结构如下图所示：</p>
-<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/hedeE9"><img src="https://z3.ax1x.com/2021/08/25/hedeE9.png" alt="hedeE9.png"></a></p>
-<p>下面进入unity商店下载并import joystick插件，将其中一个prefabs拖到Canvas中，我们可以通过代码读取joystick的中心位置，通过下图的角度关系，我们可以得：<br /><br>θ=Arctanjoystick.Vertical / joystick.Horizontal)，其中θ为弧度，还需要转成角度制，在第一象限内，技能角度=θ角度-90；第二象限内，技能角度=θ角度+90</p>
-<p><a target="_blank" rel="noopener" href="https://imgtu.com/i/heaH9P"><img src="https://z3.ax1x.com/2021/08/25/heaH9P.png" alt="heaH9P.png"></a></p>
-<p>玩家可以释放的角度范围为-90~90，即禁用第三第四象限。完整代码如下：<br> <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">if(joystick.Vertical!=0 || joystick.Horizontal != 0)//摇杆不在圆心时</span><br><span class="line">      &#123;</span><br><span class="line"></span><br><span class="line">          IsRealse = true;</span><br><span class="line"></span><br><span class="line">          SkillPrefabs.SetActive(true);</span><br><span class="line">          if (joystick.Horizontal &gt; 0 &amp;&amp; joystick.Vertical &gt; 0)//第一象限时</span><br><span class="line">          &#123;</span><br><span class="line">              Skillangle = Mathf.Atan(joystick.Vertical / joystick.Horizontal)* Mathf.Rad2Deg - 90;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">              SkillPivot.transform.rotation = Quaternion.Euler(0, 0, Skillangle);</span><br><span class="line"></span><br><span class="line">          &#125;</span><br><span class="line">          else if (joystick.Horizontal == 0)</span><br><span class="line">          &#123;</span><br><span class="line">              SkillPivot.transform.rotation = Quaternion.Euler(0, 0, 0);//在(0,1)点时角度为0</span><br><span class="line">          &#125;</span><br><span class="line">          else if (joystick.Horizontal &lt; 0 &amp;&amp; joystick.Vertical &gt; 0)//第2象限时</span><br><span class="line">          &#123;</span><br><span class="line">              Skillangle = Mathf.Atan(joystick.Vertical / joystick.Horizontal) * Mathf.Rad2Deg + 90;</span><br><span class="line"></span><br><span class="line">              SkillPivot.transform.rotation = Quaternion.Euler(0, 0, Skillangle);</span><br><span class="line"></span><br><span class="line">          &#125;else if (joystick.Vertical &lt; 0 &amp;&amp; joystick.Horizontal&lt;0)//第3象限时</span><br><span class="line">          &#123;</span><br><span class="line">              SkillPivot.transform.rotation = Quaternion.Euler(0, 0, 90);</span><br><span class="line">          &#125;</span><br><span class="line">          else if (joystick.Vertical &lt; 0 &amp;&amp; joystick.Horizontal &gt; 0)//第4象限时</span><br><span class="line">          &#123;</span><br><span class="line">              SkillPivot.transform.rotation = Quaternion.Euler(0, 0, -90);</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line">      else</span><br><span class="line">      &#123;</span><br><span class="line">          if (IsRealse)</span><br><span class="line">          &#123;</span><br><span class="line">              SkillShot();</span><br><span class="line"></span><br><span class="line">          &#125;</span><br><span class="line">          SkillPrefabs.SetActive(false);</span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<h2 id="一、BOSS战整体设计"><a href="#一、BOSS战整体设计" class="headerlink" title="一、BOSS战整体设计"></a>一、BOSS战整体设计</h2><p>BOSS战实际上是多个小循环的组合，一个循环要分为三个部分：<br /></p>
+<ul>
+<li>1.BOSS攻击阶段——BOSS激烈寻找并攻击玩家的过程<br /></li>
+<li>2.玩家攻击阶段——玩家找准时机攻击BOSS的过程<br /></li>
+<li>3.缓冲阶段——BOSS和玩家互相观察，放慢节奏的缓冲阶段<br /></li>
+</ul>
+<p>&emsp;&emsp;从三个方面分别思考设计元素，用有限的元素也能迅速构建出成熟的BOSS的框架。工作到了今天，我才意识到设计技能一定要思考这三个方面，不然做的BOSS体验很不完整（悲）。<br /></p>
+<h2 id="二、BOSS攻击阶段设计"><a href="#二、BOSS攻击阶段设计" class="headerlink" title="二、BOSS攻击阶段设计"></a>二、BOSS攻击阶段设计</h2><p>&emsp;&emsp;BOSS的技能实际上都是为了测试玩家某方面的能力而设计（钞能力也是能力），在素材有限的情况下，避免玩家审美疲劳非常重要。<br /><br>&emsp;&emsp;当BOSS具有多个阶段时，一个阶段的技能循环不应该少于3个，且3个技能之间的循环时间不应该过长，设定上应该能让BOSS迅速进入下一阶段，或者该阶段内，使用同一素材的技能有不同情况下的技能变招。<br /></p>
+<p>&emsp;&emsp;用一个旋风素材为例，设计BOSS在同一阶段不同情况下的变招：<br /><br><a target="_blank" rel="noopener" href="https://imgtu.com/i/XBPsh9"><img src="https://s1.ax1x.com/2022/06/06/XBPsh9.md.png" alt="XBPsh9.md.png"></a></p>
+<ul>
+<li><p>正常情况下发射三股旋风；释放一次后还可以变招，三股旋风走曲线路径，然后在终点回合形成一股更大的旋风，并且会对玩家造成更大的威胁；对于前者，玩家简单的控制走位的角度就能规避，对于后者，玩家还需要控制走位的距离，是正常技能的升级版，略有变化，但是体验就会相对丰富一点。</p>
+</li>
+<li><p>在BOSS残血时，除了技能释放频率和前后摇有明显变化外，相同的技能也应该变招为“强化版”，一个三股旋风的技能可以升级为两波不同速度的旋风，或者大于3波的持续旋风潮，更加考验玩家的灵活走位能力，虽然是同一素材，但是演出性就大大加强了。</p>
+</li>
+<li><p>BOSS特殊情况，例如释放不希望被玩家打断的技能或者血量较低需要规避时，可以召唤旋风围绕自身，增加玩家的近身难度，提升玩家的操作难度和战斗策略。</p>
+</li>
+</ul>
+<p>不过用了这么多相同的素材，估计技能变化再丰富也会有点审美疲劳吧，单个素材还是不建议复用这么多次的……（可以适当改一下颜色和大小啥的，加点不一样的受击反馈和异常状态<br>）</p>
+<h2 id="三、玩家攻击阶段设计"><a href="#三、玩家攻击阶段设计" class="headerlink" title="三、玩家攻击阶段设计"></a>三、玩家攻击阶段设计</h2><p>&emsp;&emsp;当BOSS释放明显有破绽的技能，玩家可以利用空隙攻击BOSS疯狂输出，甚至打断BOSS后续的攻击阶段。对于单机游戏来说，一般是用来奖励玩家正确触发游戏机制的奖励时间，例如累计失衡值后怪物挣扎倒地，亦或是成功弹反后敌人进入僵直。然而手游设计考虑的元素比较简单，给与玩家奖励时间的条件大部分是破盾或者破坏掉怪物身上某些部位标记。<br /><br>&emsp;&emsp;我在前段时间工作中，设计的BOSS破盾后反而会给玩家带来一定的惩罚（不陷入僵直反而还会立刻释放比较麻烦的技能），实属反向设计了，这次自我反省一下，亡羊补牢为时不晚。<br /><br>&emsp;&emsp;在玩家正确跟随游戏机制，化解BOSS机制，进入玩家输出奖励时间时，BOSS要陷入比较容易受到攻击的脆弱状态，提升玩家输出的效率，此时BOSS的行为可以有：<br /></p>
+<ul>
+<li>强制倒地/眩晕/脆弱/抱头蹲防的无法战斗的强异常状态</li>
+<li>意图比较明显，但是对玩家威胁比较小的规避行为。</li>
+</ul>
+<p><img src="https://s3.bmp.ovh/imgs/2022/06/06/a606ca540c06f808.png"><br /><br>短暂的奖励时间过后，BOSS就要重新进入正常的战斗状态迎接下一个战斗循环了。</p>
+<h2 id="四、缓冲阶段设计"><a href="#四、缓冲阶段设计" class="headerlink" title="四、缓冲阶段设计"></a>四、缓冲阶段设计</h2><p>&emsp;&emsp;当BOSS技能CD/释放大招前的准备时，或者需要根据玩家行为作出反应的中间态时，会进入短暂的缓冲阶段,常常表现为BOSS的巡逻徘徊行为（表现不好的话很像逛街）、BOSS的召唤行为，一方面起到缓解玩家紧张感的作用，一方面能延长游戏节奏（拖时长）。<br>&emsp;&emsp;然而在美术素材非常少的情况下，缓冲阶段设计不好反而会稀释游戏内容，降低游戏体验，因此在素材比较紧张的情况下，尽量减少BOSS缓冲行为的时长，减少无意义的缓冲次数（让BOSS不那么像在逛街），比较长的缓冲行为演出尽量在有意义的大招前释放，因此行为树可以这样设计：<br /><br><a target="_blank" rel="noopener" href="https://imgtu.com/i/XBE6Lq"><img src="https://s1.ax1x.com/2022/06/06/XBE6Lq.md.png" alt="XBE6Lq.md.png"></a></p>
 
     </div>
 
@@ -252,13 +264,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/08/15/hello-world/" rel="prev" title="理想乡宾客须知">
-      <i class="fa fa-chevron-left"></i> 理想乡宾客须知
+    <a href="/2022/01/18/Arknightsrouge/" rel="prev" title="明日方舟肉鸽吐槽">
+      <i class="fa fa-chevron-left"></i> 明日方舟肉鸽吐槽
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/08/22/CardGame/" rel="next" title="DBG为何如此上头——从战斗关卡设计说起">
-      DBG为何如此上头——从战斗关卡设计说起 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -317,7 +326,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%88%E6%94%BE%E4%B8%80%E5%BC%A0%E6%9C%80%E7%BB%88%E6%95%88%E6%9E%9C%E5%9B%BE"><span class="nav-number">1.</span> <span class="nav-text">先放一张最终效果图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E6%8C%87%E7%A4%BA%E7%BA%BF%E5%92%8C%E6%8A%80%E8%83%BD%E8%A7%92%E5%BA%A6"><span class="nav-number">2.</span> <span class="nav-text">显示指示线和技能角度</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81BOSS%E6%88%98%E6%95%B4%E4%BD%93%E8%AE%BE%E8%AE%A1"><span class="nav-number">1.</span> <span class="nav-text">一、BOSS战整体设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81BOSS%E6%94%BB%E5%87%BB%E9%98%B6%E6%AE%B5%E8%AE%BE%E8%AE%A1"><span class="nav-number">2.</span> <span class="nav-text">二、BOSS攻击阶段设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E7%8E%A9%E5%AE%B6%E6%94%BB%E5%87%BB%E9%98%B6%E6%AE%B5%E8%AE%BE%E8%AE%A1"><span class="nav-number">3.</span> <span class="nav-text">三、玩家攻击阶段设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E7%BC%93%E5%86%B2%E9%98%B6%E6%AE%B5%E8%AE%BE%E8%AE%A1"><span class="nav-number">4.</span> <span class="nav-text">四、缓冲阶段设计</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
