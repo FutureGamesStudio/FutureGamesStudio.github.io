@@ -37,8 +37,9 @@
 <meta property="og:image" content="https://i.postimg.cc/PxT1kR8c/8.gif">
 <meta property="og:image" content="https://i.postimg.cc/dQpxWW8F/6.gif">
 <meta property="og:image" content="https://i.postimg.cc/28RdNWst/QQ-20230329015723.png">
+<meta property="og:image" content="https://i.postimg.cc/vmR94tj5/QQ-20230329015723.png">
 <meta property="article:published_time" content="2021-03-14T16:00:00.000Z">
-<meta property="article:modified_time" content="2023-03-29T15:36:04.913Z">
+<meta property="article:modified_time" content="2023-03-29T15:52:37.193Z">
 <meta property="article:author" content="金子琦">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://s3.bmp.ovh/imgs/2022/01/22f419e5c5146c6b.png">
@@ -197,7 +198,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-03-29 23:36:04" itemprop="dateModified" datetime="2023-03-29T23:36:04+08:00">2023-03-29</time>
+                <time title="修改时间：2023-03-29 23:52:37" itemprop="dateModified" datetime="2023-03-29T23:52:37+08:00">2023-03-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -215,7 +216,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>752</span>
+              <span>768</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -240,7 +241,7 @@
 <h3 id="2-攻击行为"><a href="#2-攻击行为" class="headerlink" title="2.攻击行为"></a>2.攻击行为</h3><p>攻击行为：每次闪现后衔接1-3个招式序列（中间无明显停顿视为一个招式序列），每个招式序列包含1-2个技能<br /></p>
 <p>其中仅包含一个技能的招式序列有：<br /><br>1.当玩家距离自身过远时大概率释放：上挑剑气大范围远程（火焰AOE）<br /></p>
 <p>2.表演向技能，发动时强制闪现玩家较远位置，蓄力上劈发射白色剑气<br /><br><a target="_blank" rel="noopener" href="https://postimg.cc/FfFZ4VK2"><img src="https://i.postimg.cc/R0KbwPxV/3.gif" alt="3.gif"></a></p>
-<p><br />其中包含多个技能的招式序列包含多个以下技能：<br /><br>每个招式序列开始前会产生1~3个招式随机数，下次招式会<br>招式序列cd间隔约为上次闪现末到下次闪现初，会受索敌和特殊状态影响。<br /></p>
+<p><br />其中包含多个技能的招式序列包含多个以下技能：<br /><br>每个招式序列开始前会产生1~3个招式随机数，下次释放招式序列时，会释放随机数组数的招式序列（1概率最大，其次为2，3），当随机数为2和3时，会延后闪现CD<br /></p>
 <p>若未成功索敌，则优先索敌然后在释放。<br /><br>若进入硬直，则会重新执行相同的招式序列，直到强制闪现离开玩家身边。<br /></p>
 <p>skill01:快速左右横扫<br /><br><a target="_blank" rel="noopener" href="https://postimg.cc/v1nK4zyD"><img src="https://i.postimg.cc/fbqQg2g7/1-5.gif" alt="1-5.gif"></a></p>
 <p>skill02:大横扫<br /><br>skill01的变体版，前摇区别不打，但是只挥击一下，具有较长时间的后摇<br /><br><a target="_blank" rel="noopener" href="https://postimg.cc/zyh6dgDs"><img src="https://i.postimg.cc/137S3Gk3/7.gif" alt="7.gif"></a></p>
@@ -250,7 +251,8 @@
 <p>skill06:跳劈砸地<br /><br>skill04的变体版，增加了前后摇，力度更大<br /><br><a target="_blank" rel="noopener" href="https://postimg.cc/2q91QTGF"><img src="https://i.postimg.cc/PxT1kR8c/8.gif" alt="8.gif"></a></p>
 <p>skill07:戳刺<br /><br><a target="_blank" rel="noopener" href="https://postimg.cc/kDNsGv1Y"><img src="https://i.postimg.cc/dQpxWW8F/6.gif" alt="6.gif"></a></p>
 <p>捕捉到的技能序列有以下几种，分析得出双王子的招式序列技能组合不固定，不会强制根据玩家距离出招，与闪现技能解耦。但是当使用过一个技能后会降低改组技能在该招式序列中的比重<br /><br><a target="_blank" rel="noopener" href="https://postimg.cc/V5g0jJL9"><img src="https://i.postimg.cc/28RdNWst/QQ-20230329015723.png" alt="QQ-20230329015723.png"></a></p>
-<h3 id="3-一阶段行为树归纳"><a href="#3-一阶段行为树归纳" class="headerlink" title="3.一阶段行为树归纳"></a>3.一阶段行为树归纳</h3><h2 id="二、BOSS二阶段行为"><a href="#二、BOSS二阶段行为" class="headerlink" title="二、BOSS二阶段行为"></a>二、BOSS二阶段行为</h2><p>BOSS二阶段混合了一阶段部分逻辑，并且新增了远程攻击手段</p>
+<h3 id="3-一阶段行为树归纳"><a href="#3-一阶段行为树归纳" class="headerlink" title="3.一阶段行为树归纳"></a>3.一阶段行为树归纳</h3><p><a target="_blank" rel="noopener" href="https://postimg.cc/gxDr58G0"><img src="https://i.postimg.cc/vmR94tj5/QQ-20230329015723.png" alt="QQ-20230329015723.png"></a></p>
+<h2 id="二、BOSS二阶段行为"><a href="#二、BOSS二阶段行为" class="headerlink" title="二、BOSS二阶段行为"></a>二、BOSS二阶段行为</h2><p>BOSS二阶段混合了一阶段部分逻辑，并且新增了远程攻击手段</p>
 <h2 id="三、整合逆向推理行为树"><a href="#三、整合逆向推理行为树" class="headerlink" title="三、整合逆向推理行为树"></a>三、整合逆向推理行为树</h2>
     </div>
 
